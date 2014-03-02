@@ -3,7 +3,7 @@
   "cowlib": {:git, "git://github.com/extend/cowlib.git", "0d4ece08a7cce90a07cf33d4edad29bc324c7d90", [ref: "0.5.1"]},
   "ex_conf": {:git, "git://github.com/phoenixframework/ex_conf.git", "4ca0cbf65c70d1ce787834a0988338729dcf4098", []},
   "ex_doc": {:git, "git://github.com/elixir-lang/ex_doc.git", "1419e7adc1c289cd75587d9f435c412c70c297d9", []},
-  "inflex": {:git, "git://github.com/nurugger07/inflex.git", "422aa637e809ccd7206b19d018edd52a52af17f3", []},
+  "inflex": {:git, "git://github.com/nurugger07/inflex.git", "f805c97308931bdb4f6e00de1dc893da796ea6c7", []},
   "mime": {:git, "git://github.com/dynamo/mime.git", "db84370c53a67a7e58a4d0cfb026f4edc64a9367", []},
   "plug": {:git, "git://github.com/elixir-lang/plug.git", "c735ee21ab8384ab47ac27feb56cc509641fdc6d", []},
   "ranch": {:git, "git://github.com/extend/ranch.git", "5df1f222f94e08abdcab7084f5e13027143cc222", [ref: "0.9.0"]} ]
