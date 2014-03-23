@@ -17,15 +17,15 @@
 
 3. Change directory to `/path/to/scaffold/your_app`. Install dependencies and start web server
 
-        mix deps.get
-        mix run -e 'YourApp.Router.start' --no-halt mix.exs
+        mix do deps.get, compile
+        mix phoenix.start
 
 
 ### Router example
 
 ```elixir
 defmodule YourApp.Router do
-  use Phoenix.Router, port: 4000
+  use Phoenix.Router
 
   plug Plug.Static, at: "/static", from: :your_app
 
@@ -76,6 +76,40 @@ defmodule Controllers.Users do
   end
 end
 ```
+
+### Configuration
+
+Phoenix provides a configuration per environment set by the `MIX_ENV` environment variable. The default environment `Dev` will be set if `MIX_ENV` does not exist.
+
+#### Configuration file structure:
+```
+├── your_app/lib/config/
+│   ├── config.ex          Base application configuration
+│   ├── dev.ex
+│   ├── prod.ex
+│   └── test.ex
+```
+
+```elixir
+# your_app/lib/config/config.ex
+defmodule YourApp.Config do
+  use Phoenix.Config.App
+
+  config :router, port: System.get_env("PORT")
+  config :plugs, code_reload: false
+  config :logger, level: :error
+end
+
+# your_app/lib/config/dev.ex
+defmodule YourApp.Config.Dev do
+  use YourApp.Config
+
+  config :router, port: 4000
+  config :plugs, code_reload: true
+  config :logger, level: :debug
+end
+```
+
 
 ### Mix Tasks
 
