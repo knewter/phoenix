@@ -1,10 +1,10 @@
 defmodule Phoenix.Controller do
-  import Plug.Connection
+  import Plug.Conn
   use Calliope.Render
 
   defmacro __using__(_options) do
     quote do
-      import Plug.Connection
+      import Plug.Conn
       use Calliope.Render
       import unquote(__MODULE__)
     end
@@ -57,17 +57,30 @@ defmodule Phoenix.Controller do
   end
 
   def error(conn, error) do
+    status = Plug.Exception.status(error)
+
+    html conn, status, """
+      <html>
+        <body>
+          <pre>Something went wrong</pre>
+        </body>
+      </html>
+    """
+  end
+
+  def error_with_trace(conn, error) do
     stacktrace = System.stacktrace
-    exception  = Exception.normalize(error)
+    exception  = Exception.normalize(:error, error)
     status     = Plug.Exception.status(error)
 
     html conn, status, """
       <html>
         <h2>(#{inspect exception.__record__(:name)}) #{exception.message}</h2>
         <h4>Stacktrace</h4>
-        <pre>#{Exception.format_stacktrace stacktrace}</pre>
+        <body>
+          <pre>#{Exception.format_stacktrace stacktrace}</pre>
+        </body>
       </html>
     """
   end
 end
-

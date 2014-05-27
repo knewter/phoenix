@@ -159,26 +159,27 @@ defmodule Phoenix.Router.RoutingTest do
     assert conn.status == 404
   end
 
-  test "dispatch crash returns 500" do
+  test "dispatch crash returns 500 and renders friendly error page" do
     conn = simulate_request(Router, :get, "route_that_crashes")
     assert conn.status == 500
-    assert conn.resp_body =~ ~r/Stacktrace/
+    assert conn.resp_body =~ ~r/Something went wrong/i
+    refute conn.resp_body =~ ~r/Stacktrace/i
   end
 
-  test "splat arg with preceeding named parameter to files/:user_name/*path" do
+  test "splat arg with preceding named parameter to files/:user_name/*path" do
     conn = simulate_request(Router, :get, "files/elixir/Users/home/file.txt")
     assert conn.status == 200
     assert conn.params["user_name"] == "elixir"
     assert conn.params["path"] == "Users/home/file.txt"
   end
 
-  test "splat arg with preceeding string to backups/*path" do
+  test "splat arg with preceding string to backups/*path" do
     conn = simulate_request(Router, :get, "backups/name")
     assert conn.status == 200
     assert conn.params["path"] == "name"
   end
 
-  test "splat arg with multiple preceeding strings to static/images/icons/*path" do
+  test "splat arg with multiple preceding strings to static/images/icons/*path" do
     conn = simulate_request(Router, :get, "static/images/icons/elixir/logos/main.png")
     assert conn.status == 200
     assert conn.params["image"] == "elixir/logos/main.png"

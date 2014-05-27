@@ -22,7 +22,7 @@ defmodule Mix.Tasks.Phoenix.NewTest do
       "test/photo_blog_test.exs",
       "test/test_helper.exs"]
 
-    lc file inlist expected_files do
+    for file <- expected_files do
       path = Path.join(project_path, file)
 
       assert File.exists?(path)
@@ -34,6 +34,11 @@ defmodule Mix.Tasks.Phoenix.NewTest do
     {:ok, content} = File.read(path)
 
     assert Regex.match?(~r/PhotoBlog/, content)
+  end
+
+  test "missing name and/or path arguments" do
+    assert :ok == Mix.Tasks.Phoenix.New.run([])
+    assert :ok == Mix.Tasks.Phoenix.New.run([@app_name])
   end
 
   teardown_all do

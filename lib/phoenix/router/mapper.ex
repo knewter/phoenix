@@ -10,7 +10,7 @@ defmodule Phoenix.Router.Mapper do
 
   @moduledoc """
   Adds Macros for Route match definitions. All routes are
-  compiled to patterm matched def match() definitions for fast
+  compiled to pattern matched def match() definitions for fast
   and efficient lookup by the VM.
 
   # Examples
@@ -93,7 +93,7 @@ defmodule Phoenix.Router.Mapper do
 
     quote do
       def unquote(:match)(conn, unquote(http_method), unquote(path_args)) do
-        conn = conn.params(Dict.merge(conn.params, unquote(params_list_with_bindings)))
+        conn = %{conn | params: Dict.merge(conn.params, unquote(params_list_with_bindings)) }
 
         apply(unquote(controller), unquote(action), [conn])
       end

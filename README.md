@@ -2,6 +2,8 @@
 
 > Elixir Web Framework targeting full-featured, fault tolerant applications with realtime functionality
 
+[![Build Status](https://travis-ci.org/phoenixframework/phoenix.svg)](https://travis-ci.org/phoenixframework/phoenix)
+
 ## Getting started
 
 1. Install Phoenix
@@ -114,6 +116,37 @@ defmodule YourApp.Config.Dev do
 end
 ```
 
+#### Configuration for SSL
+
+To launch your application with support for SSL, just place your keyfile and
+certfile in the `priv` directory and configure your router with the following
+options:
+
+```elixir
+# your_app/lib/config/prod.ex
+defmodule YourApp.Config.Prod do
+  use YourApp.Config
+
+  config :router, port: 4040,
+                  ssl: true,
+		  otp_app: :your_app,
+		  keyfile: "ssl/key.pem",
+		  certfile: "ssl/cert.pem"
+end
+```
+
+When you include the `otp_app` option, `Plug` will search within the `priv`
+directory of your application. If you use relative paths for `keyfile` and
+`certfile` and do not include the `otp_app` option, `Plug` will throw an error.
+
+You can leave out the `otp_app` option if you provide absolute paths to the
+files.
+
+Example:
+
+```elixir
+Path.expand("../../../some/path/to/ssl/key.pem", __DIR__)
+```
 
 ### Mix Tasks
 
@@ -121,6 +154,7 @@ end
 mix phoenix                                    # List Phoenix tasks
 mix phoenix.new     app_name destination_path  # Creates new Phoenix application
 mix phoenix.routes  [MyApp.Router]             # Prints routes
+mix phoenix.start   [MyApp.Router]             # Starts worker
 mix phoenix --help                             # This help
 ```
 
@@ -157,7 +191,7 @@ There are no guidelines yet. Do what feels natural. Submit a bug, join a discuss
   - [x] Scoped definitions
   - [ ] Member/Collection resource  routes
 - Configuration
-  - [ ] Environment based configuration with ExConf
+  - [x] Environment based configuration with ExConf
 - Middleware
   - [x] Plug Based Connection handling
   - [x] Code Reloading
@@ -171,7 +205,5 @@ There are no guidelines yet. Do what feels natural. Submit a bug, join a discuss
 - Views
   - [ ] Precompiled View handling
 - Realtime
-  - [ ] Raw websocket handler
-  - [ ] Websocket multiplexing/channels
-  - [ ] Websocket routing DSL
-  - [ ] Websocket Controllers
+  - [x] Websocket multiplexing/channels
+
