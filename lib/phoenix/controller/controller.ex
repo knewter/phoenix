@@ -25,8 +25,8 @@ defmodule Phoenix.Controller do
     send_response(conn, status, "text/plain", text)
   end
 
-  def haml(conn, haml, args\\[]) do
-    html(conn, render(haml, conn.params ++ args))
+  def haml(conn, haml, args\\%{}) do
+    html(conn, render(haml, Map.merge(conn.params, args) |> Map.to_list))
   end
 
   def send_response(conn, status, content_type, data) do

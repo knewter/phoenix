@@ -16,16 +16,16 @@ defmodule Phoenix.Router.ControllerTest do
     use Phoenix.Controller
 
     @user_haml ~s{
-      %section.container
-        %article
-          %h1= title
-          %h2 An Elixir Web Framework
-          #main.content
-            This was rendered by Calliope
+%section.container
+  %article
+    %h1= title
+    %h2 An Elixir Web Framework
+    #main.content
+      This was rendered by Calliope
     }
 
     def show(conn) do
-      haml conn, @user_haml, [ title: "Phoenix" ]
+      haml conn, @user_haml, %{ title: "Phoenix" }
     end
 
   end
@@ -51,7 +51,7 @@ defmodule Phoenix.Router.ControllerTest do
   test "controller renders haml" do
     conn = simulate_request(Router, :get, "page")
     assert conn.status == 200
-    assert "<section class=\"container\"></section><article></article><h1>Phoenix</h1><h2>An Elixir Web Framework</h2><div id=\"main\" class=\"content\">This was rendered by Calliope</div>" == conn.resp_body
+    assert "<section class=\"container\"><article><h1>Phoenix</h1><h2>An Elixir Web Framework</h2><div id=\"main\" class=\"content\">This was rendered by Calliope</div></article></section>" == conn.resp_body
   end
 
 end
